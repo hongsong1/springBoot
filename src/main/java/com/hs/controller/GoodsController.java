@@ -74,4 +74,8 @@ public class GoodsController {
     public List<Map> getType(){
         return goodsService.gettype();
     }
+    @RequestMapping("/getType")
+    public List<Map> getType22(){
+        return goodsService.gettype();
+    }
 }
