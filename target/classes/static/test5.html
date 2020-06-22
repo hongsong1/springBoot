@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+        <div id="app">
+            {{message}}
+            <!--<input type="button" @click="test2('网红')" value="test"/>-->
+            <!--<input type="button" @click="test2('网红')" value="test"/>-->
+            <!--<a href="test1.html" @click.prevent="test2('成功')">阻断超链接</a>-->
+            <div @click.stop="test2('11')">
+                <div @click.stop="test2('22')">
+                    <div @click.stop="test2('33')">
+                    事件冒泡
+                </div>
+                </div>
+            </div>
+
+
+            <img :src="img" style="width:100px;height:200px;"/>
+            <input type="button" @click="test3('imgs/03.jpeg')" value="test" />
+            <hr/>
+
+            <form >
+                <div>用户名:<input type="text" v-model="user.userName" /> </div>
+                <div>密码:<input type="text" v-model="user.password"> </div>
+                <div>单选按钮、下拉框和复选框：需要指定value属性值，复选框：初始值使用数组的方式来指定</div>
+                <div>性别:<input type="radio" value="男" v-model="user.sex" />男 <input type="radio" value="女" v-model="user.sex" />女</div>
+                <div>地址:<select v-model="user.address">
+                    <option value="新乡">新乡</option>
+                    <option value="郑州">郑州</option>
+                    <option value="北京">北京</option>
+                </select>
+                </div>
+                <div>
+                    兴趣：<input type="checkbox"  v-model="user.hobby" value="敲代码" />敲代码
+                    <input type="checkbox"  v-model="user.hobby" value="吃饭"/>吃饭
+                    <input type="checkbox" v-model="user.hobby" value="睡觉"/>睡觉
+                </div>
+                <input type="button" @click="test4()" value="获取表单数据准备提交"/>
+            </form>
+
+
+            <hr/>
+            <input type="button" @click="test5()" value="模拟get请求"/>
+            <input type="button" @click="test5()" value="模拟post请求"/>
+            <input type="button" @click="test6()" value="模拟post请求测试箭头函数"/>
+            <div>user中的数据显示，测试this作用域</div>
+            <div>{{user.userName}}------{{user.password}}</div>
+        </div>
+</body>
+</html>
+<script>
+    function test1(){
+        alert(111);
+    }
+
+    const vm=new Vue({
+        el:"#app",
+        data:{
+            message:'hello',
+            img:'imgs/02.jpg',
+            user:{
+                userName:'老王',
+                password:'66666',
+                sex:'女',
+                address:'北京',
+                hobby:['敲代码','吃饭']
+            }
+        },
+        //封装自定义的函数
+        methods:{
+            test2:function(str){
+                console.log(str);
+                this.message=str;
+            },
+            test3:function(file){
+                this.img=file;
+            },
+            test4:function(){
+                console.log(this.user);
+                //转换成标准的json格式的字符串
+                alert(JSON.stringify(this.user));
+            },
+            test5:function(){
+                //模拟发送get请求
+              /*  axios.get('/vue/test5?id=100').then(function(resp){
+                    console.log(resp.data);
+                }).catch(function(error){
+                    console.log('错误：'+error);
+                });*/
+              //会将参数序列化成键值对的形式传递
+                let self=this; //声明块（局部变量）
+                //在使用axios的异步请求时，如果使用的是匿名函数，那么在匿名函数内部this并不能指代当前vue实例；
+                //需要在异步请求之前指定this实例：var self=this;
+                axios.post('/vue/test7',{
+                        id:100,
+                        userName:'张三',
+                        password:'123456'
+                }).then(function(resp){
+                    //将数据赋值给data中的指定的属性
+                     self.user=resp.data;
+                    console.log(resp.data);
+                }).catch(function(error){
+                    console.log('错误：'+error);
+                });
+            },
+            test6:function(){
+                axios.post('/vue/test7',{
+                    id:200,
+                    userName:'张三2',
+                    password:'1234567'
+                }).then( (response) => {
+                    //this指向vue实例
+                  this.user=response.data;
+                } ).catch((error)=>{
+                    console.log(error);
+                });
+            }
+        }
+    });
+
+</script>

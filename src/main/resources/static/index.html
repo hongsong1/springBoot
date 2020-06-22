@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+
+       v-text: <span v-text="text"></span><br/>
+        v_html:<span v-html="text"></span><br/>
+        v_if:<span v-if="1<10">123456</span><br/>
+
+        v_for:<ul>
+                <li v-for="item in array" v-text="item"></li>
+            </ul>
+        v_for:<ul>
+        <li v-for="item in userList" >
+            {{item.name}}
+        </li>
+            </ul>
+
+
+        v-bind:绑定属性:<button v-bind:disabled='button1'>点击我</button><br>
+
+        v-on:绑定事件:<button v-on:click="query">绑定事件</button><br>
+
+        v-model 指令用来在 input、select、textarea、checkbox、radio 等表单控件元素上创建双向数据绑定，根据表单上的值，自动更新绑定的元素的值。
+        {{message}}
+        v-model<input type="text" v-model="message"/><br/>
+
+        <table border="1px">
+            <tr>
+                <td>姓名</td>
+                <td>年龄</td>
+            </tr>
+            <tr v-for="username in getAll">
+                <td>{{username.username}}</td>
+                <td>{{username.age}}</td>
+            </tr>
+        </table>
+
+
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    var app=new Vue({
+        el:'#app',
+        data:{
+            message:'入门成功',
+            button1:true,
+            text:'测试',
+            user:{name:'张三',age:'18'},
+            age:20,
+            array:[1,2,3,4],
+            userList:[
+                {name:'张三',age:'18'},
+                {name:'李四',age:'19'},
+                {name:'王五',age:'20'}
+            ],
+            getAll:null
+        },
+        methods:{
+            rumen:function () {
+                alert("v-on入门");
+            },
+            query:function () {
+                var _this=this;
+                axios.get('/user/getAll', {
+                    params: {
+                        id: 12345
+                    }
+                })
+                .then(function (response) {
+                    console.log(response);
+                    _this.getAll=response.data;
+                    console.log(_this.getAll);
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
+        /**
+         * 初始化事件之后
+         */
+        beforeCreate:function () {
+            //访问内置属性 对象。$属性名
+            // this.query();
+            console.log('初始化事件'+this.$el+'===='+this.$data)
+        },
+        created:function () {
+            // this.query();
+            // this.text ='123';
+            console.log('初始化注入'+this.$el+'===='+this.$data)
+        },
+        mounted:function () {
+            this.text='123456';
+            this.query();
+            // axios.get('/user/getAll', {
+            //     params: {
+            //         id: 12345
+            //     }
+            // })
+            //     .then(function (response) {
+            //         console.log(response);
+            //         this.getAll=response.data;
+            //         console.log(this.getAll);
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     });
+
+            console.log("挂载"+this.getAll);
+            console.log('挂载'+this.$el+'===='+this.$data)
+        },
+        updated:function(){
+            console.log('更新'+this.$el+'===='+this.$data.message)
+        },
+        destroyed:function () {
+            alert(123456);
+            console.log('销毁'+this.$el+'===='+this.$data)
+        }
+
+
+    })
+</script>
+</html>

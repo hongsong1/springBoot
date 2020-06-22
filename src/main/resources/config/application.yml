@@ -1,0 +1,33 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /
+
+#    配置数据源
+spring:
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql:///test1
+      username: root
+      password: 123456
+      type: com.alibaba.druid.pool.DruidDataSource
+#  thymeleaf模板配置
+  thymeleaf:
+    cache: false
+  mvc:
+    date-format: yyyy-MM-dd
+  jackson:
+    date-format: yyyy-MM-dd
+
+mybatis:
+  #配置别名
+  type-aliases-package: com.hs.entity
+#  config-location: classpath:mapper/*xml 配置mybatis的mapper映射文件
+
+#控制日志打印sql命令
+logging:
+  level:
+    com:
+      hs:
+        mapper: debug
+#levle：指定mapper接口所在的包

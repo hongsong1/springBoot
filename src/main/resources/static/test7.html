@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/index.css" rel="stylesheet"/>
+    <script src="/js/vue.js"></script>
+    <script src="/js/index.js"></script>
+</head>
+<body>
+<div id="app">
+<template>
+    <el-table
+            :data="deptData"
+            style="width: 100%">
+        <el-table-column
+                prop="date"
+                label="日期"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="姓名"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="address"
+                label="地址">
+        </el-table-column>
+    </el-table>
+</template>
+</div>
+</body>
+</html>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            //对象数组
+            deptData: []
+        },
+        mounted:function(){
+            this.deptData.push({
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            });
+        }
+    })
+</script>

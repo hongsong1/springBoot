@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <img :src="image" style="width:200px;height:200px;"/>
+     <button @click="luobo()">点击</button>
+
+    <form >
+        <div>用户名:<input type="text" v-model="user.userName" /> </div>
+        <div>密码:<input type="text" v-model="user.password"> </div>
+        <!--<div>单选按钮、下拉框和复选框：需要指定value属性值，复选框：初始值使用数组的方式来指定</div>-->
+        <div>性别:<input type="radio" value="男" v-model="user.sex" />男 <input type="radio" value="女" v-model="user.sex" />女</div>
+        <div>地址:<select v-model="user.address">
+            <option value="新乡">新乡</option>
+            <option value="郑州">郑州</option>
+            <option value="北京">北京</option>
+        </select>
+        </div>
+        <div>
+            兴趣：<input type="checkbox"  v-model="user.hobby" value="敲代码" />敲代码
+            <input type="checkbox"  v-model="user.hobby" value="吃饭"/>吃饭
+            <input type="checkbox" v-model="user.hobby" value="睡觉"/>睡觉
+        </div>
+        <input type="button" @click="test4()" value="获取表单数据准备提交"/>
+    </form>
+</div>
+
+</body>
+<script src="js/vue.js"></script>
+<script>
+    var i=1;
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            image:"images/1.jpg",
+            user:{
+                userName:'帅',
+                password:'666666',
+                sex:'女',
+                address:'郑州',
+                hobby:['敲代码','吃饭']
+            }
+        },
+        methods:{
+            luobo:function () {
+                i++;
+                if(i==4){
+                    i=1;
+                }
+                this.image="images/"+i+".jpg";
+
+            }
+        }
+
+    })
+</script>
+</html>
